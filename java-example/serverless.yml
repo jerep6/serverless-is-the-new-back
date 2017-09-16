@@ -1,0 +1,18 @@
+service: aws-java-gradle
+
+provider:
+  name: aws
+  runtime: java8
+  stage: dev
+  region: eu-west-1
+
+package:
+  artifact: build/distributions/lambda.zip
+
+functions:
+  hello:
+    handler: fr.xebia.HandlerHTTP
+    events:
+      - http:
+          path: hello
+          method: get
