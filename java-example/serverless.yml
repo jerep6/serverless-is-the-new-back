@@ -1,4 +1,4 @@
-service: aws-java-gradle
+service: java-lambda-example
 
 provider:
   name: aws
@@ -7,7 +7,7 @@ provider:
   region: eu-west-1
 
 package:
-  artifact: build/distributions/lambda.zip
+  artifact: build/libs/java-example-uber.jar
 
 functions:
   hello:
