@@ -1,8 +1,7 @@
-apply plugin: 'java'
-
 plugins {
   id "com.github.johnrengelman.shadow" version "2.0.1"
 }
+apply plugin: 'java'
 
 
 repositories {
@@ -16,6 +15,7 @@ dependencies {
     compile (
         'com.amazonaws:aws-lambda-java-core:1.1.0',
         'com.amazonaws:aws-lambda-java-log4j:1.0.0',
+        // AwsProxyRequest, AwsProxyResponse
         'com.amazonaws.serverless:aws-serverless-java-container-core:0.7',
         'com.fasterxml.jackson.core:jackson-core:2.8.5',
         'com.fasterxml.jackson.core:jackson-databind:2.8.5',
@@ -23,11 +23,12 @@ dependencies {
     )
 }
 
+build.dependsOn shadowJar
 
 shadowJar {
   classifier = "uber"
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.1'
+    gradleVersion = '4.2'
 }

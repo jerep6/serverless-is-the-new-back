@@ -3,11 +3,23 @@ service: java-lambda-example
 provider:
   name: aws
   runtime: java8
-  stage: dev
   region: eu-west-1
+  tracing: true
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - xray:PutTraceSegments
+        - xray:PutTelemetryRecords
+      Resource: "*"
 
 package:
   artifact: build/libs/java-example-uber.jar
+
+
+plugins:
+  - serverless-plugin-tracing
+
 
 functions:
   hello:
