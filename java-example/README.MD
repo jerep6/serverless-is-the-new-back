@@ -116,6 +116,7 @@ curl https://API_GATEWAY.eu-west-1.amazonaws.com/dev/hello?name=JUG
 
 
 # DEMO X-RAY
+L'idée est de montrer que X-Ray aide à monitorer le cold start.
 
 1 - Activer X-Ray sur la lambda Java hello
 Modifier le fichier serverless.yml
@@ -149,5 +150,17 @@ plugins:
 serverless deploy
 ```
 
+4 - Exécution de la lambda
+```bash
+curl https://API_GATEWAY.eu-west-1.amazonaws.com/dev/hello?name=JUG
+```
 
 4 - Interface X-Ray
+* Aller dans l'onglet monitoring de la lambda pour avoir le lien X-Ray
+
+5 - Exécuter une lambda node.js pour voir la différence de cold start
+```bash
+curl https://m4tac334ok.execute-api.eu-west-1.amazonaws.com/dev/hello?name=jug
+```
+6 - Interface X-Ray
+* Aller dans l'onglet monitoring de la lambda pour avoir le lien X-Ray
