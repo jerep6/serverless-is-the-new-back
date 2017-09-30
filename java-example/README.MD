@@ -88,12 +88,11 @@ provider:
   runtime: java8
   region: eu-west-1
 
-package:
-  artifact: build/libs/java-example-uber.jar
-
 functions:
   hello:
     handler: fr.xebia.HandlerHTTP
+    package:
+      artifact: build/libs/java-example-uber.jar
     events:
       - http:
           path: hello
@@ -145,22 +144,45 @@ plugins:
   - serverless-plugin-tracing
 ```
 
-3 - Déploiement
+3 - Ajouter une lambda nodejs
+```yaml
+package:
+  individually: true
+  
+functions:
+...
+
+  hello-nodejs:
+    runtime: nodejs6.10
+    package:
+      exclude:
+        - ./**
+      include:
+        - nodejs/**
+    handler: nodejs/lambda.handler
+    events:
+      - http:
+          path: hello-node
+          method: get
+
+```
+
+4 - Déploiement
 ```
 serverless deploy
 ```
 
-4 - Exécution de la lambda
+6 - Exécution de la lambda
 ```bash
-curl https://API_GATEWAY.eu-west-1.amazonaws.com/dev/hello?name=JUG
+curl https://API_GATEWAY.eu-west-1.amazonaws.com/dev/hello-java?name=JUG
 ```
 
-4 - Interface X-Ray
+7 - Interface X-Ray
 * Aller dans l'onglet monitoring de la lambda pour avoir le lien X-Ray
 
-5 - Exécuter une lambda node.js pour voir la différence de cold start
+8 - Exécuter une lambda node.js pour voir la différence de cold start
 ```bash
-curl https://m4tac334ok.execute-api.eu-west-1.amazonaws.com/dev/hello?name=jug
+curl https://m4tac334ok.execute-api.eu-west-1.amazonaws.com/dev/hello-node?name=jug
 ```
-6 - Interface X-Ray
+9 - Interface X-Ray
 * Aller dans l'onglet monitoring de la lambda pour avoir le lien X-Ray

@@ -13,18 +13,33 @@ provider:
         - xray:PutTelemetryRecords
       Resource: "*"
 
-package:
-  artifact: build/libs/java-example-uber.jar
 
+package:
+  individually: true
 
 plugins:
   - serverless-plugin-tracing
 
 
 functions:
-  hello:
+  hello-java:
     handler: fr.xebia.HandlerHTTP
+    package:
+      artifact: build/libs/java-example-uber.jar
     events:
       - http:
-          path: hello
+          path: hello-java
+          method: get
+
+  hello-nodejs:
+    runtime: nodejs6.10
+    package:
+      exclude:
+        - ./**
+      include:
+        - nodejs/**
+    handler: nodejs/lambda.handler
+    events:
+      - http:
+          path: hello-node
           method: get
