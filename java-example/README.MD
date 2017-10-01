@@ -89,7 +89,7 @@ provider:
   region: eu-west-1
 
 functions:
-  hello:
+  hello-java:
     handler: fr.xebia.HandlerHTTP
     package:
       artifact: build/libs/java-example-uber.jar
@@ -99,12 +99,17 @@ functions:
           method: get
 ```
 
-4.Appeler la lambda
+4. Déployer
+```
+serverless deploy
+```
+
+5.Appeler la lambda
 ```bash
 curl https://API_GATEWAY.eu-west-1.amazonaws.com/dev/hello?name=JUG
 ```
 
-5. Tester la lambda dans l'interface graphique avec un event ApiGateway
+6. Tester la lambda dans l'interface graphique avec un event ApiGateway
 ```json
 {
   "queryStringParameters": {
