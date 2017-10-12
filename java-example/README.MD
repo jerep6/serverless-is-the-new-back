@@ -41,9 +41,9 @@ aws lambda create-function \
 
 4 - Appeler la lambda
 ```bash
-aws lambda invoke 
-  --function-name java-hello 
-  --payload '{"name": "JUG"}' 
+aws lambda invoke \
+  --function-name java-hello \
+  --payload '{"name": "JUG"}' \
   --region eu-west-1 result.txt && cat result.txt
 ```
 
@@ -87,12 +87,15 @@ provider:
   name: aws
   runtime: java8
   region: eu-west-1
+  
+
+package:
+  artifact: build/libs/java-example-uber.jar
 
 functions:
   hello-java:
     handler: fr.xebia.HandlerHTTP
-    package:
-      artifact: build/libs/java-example-uber.jar
+    name: java-hello-http
     events:
       - http:
           path: hello
@@ -107,15 +110,6 @@ serverless deploy
 5.Appeler la lambda
 ```bash
 curl https://API_GATEWAY.eu-west-1.amazonaws.com/dev/hello?name=JUG
-```
-
-6. Tester la lambda dans l'interface graphique avec un event ApiGateway
-```json
-{
-  "queryStringParameters": {
-      "name": "You"
-    }
-}
 ```
 
 
@@ -149,45 +143,22 @@ plugins:
   - serverless-plugin-tracing
 ```
 
-3 - Ajouter une lambda nodejs
-```yaml
-package:
-  individually: true
-  
-functions:
-...
-
-  hello-nodejs:
-    runtime: nodejs6.10
-    package:
-      exclude:
-        - ./**
-      include:
-        - nodejs/**
-    handler: nodejs/lambda.handler
-    events:
-      - http:
-          path: hello-node
-          method: get
-
-```
-
-4 - Déploiement
+3 - Déploiement
 ```
 serverless deploy
 ```
 
-6 - Exécution de la lambda
+4 - Exécution de la lambda
 ```bash
 curl https://API_GATEWAY.eu-west-1.amazonaws.com/dev/hello-java?name=JUG
 ```
 
-7 - Interface X-Ray
+5 - Interface X-Ray
 * Aller dans l'onglet monitoring de la lambda pour avoir le lien X-Ray
 
-8 - Exécuter une lambda node.js pour voir la différence de cold start
+6 - Exécuter une lambda node.js pour voir la différence de cold start
 ```bash
 curl https://m4tac334ok.execute-api.eu-west-1.amazonaws.com/dev/hello-node?name=jug
 ```
-9 - Interface X-Ray
+7 - Interface X-Ray
 * Aller dans l'onglet monitoring de la lambda pour avoir le lien X-Ray
