@@ -1,0 +1,22 @@
+java-example/build/classes/java/main/fr/xebia/HandlerHTTP.class
+.gradle
+/build/
+/bin/
+/.settings/
+.project
+.classpath
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Serverless directories
+.serverless
+
+.idea/
+gradle/wrapper/gradle-wrapper.properties
+*.iml
+
+
+node_modules
