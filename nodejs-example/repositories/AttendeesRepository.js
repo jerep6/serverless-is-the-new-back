@@ -1,6 +1,4 @@
-const
-  dynamosdk = require('./dynamodbsdk'),
-  dynamo = dynamosdk.DocumentClient;
+const dynamo = require('./dynamodbsdk').DocumentClient;
 
 module.exports.list = function () {
   return dynamo.scan({TableName : 'attendees'})
