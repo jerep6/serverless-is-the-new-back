@@ -1,0 +1,41 @@
+service: node-bdxio
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: eu-west-1
+  tracing: true
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - xray:PutTraceSegments
+        - xray:PutTelemetryRecords
+      Resource: "*"
+    - Effect: Allow
+      Action: "dynamodb:*"
+      Resource: "arn:aws:dynamodb:eu-west-1:*:table/attendees"
+
+plugins:
+  # APM
+  - serverless-plugin-tracing
+  # Run local API gateway
+  - serverless-offline
+
+functions:
+
+  attendee-list:
+    handler: handlers/AttendeesHandler.list
+    name: bdx-attendee-list
+    events:
+      - http:
+          path: /attendees
+          method: get
+
+  attendee-get:
+    handler: handlers/AttendeesHandler.get
+    name: bdx-attendee-get
+    events:
+      - http:
+          path: /attendees/{id}
+          method: get
