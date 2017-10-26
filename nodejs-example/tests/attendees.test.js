@@ -8,8 +8,8 @@ const get = bluebird.promisify(handler.get);
 const list = bluebird.promisify(handler.list);
 
 describe('Attendees', () => {
-  before(utils.beforeHook);
-  after(utils.afterHook);
+  before(utils.beforeHook);   // Start dynamodblocal in memory + create tables
+  after(utils.afterHook);     // Stop dynamodblocal
 
   it('should read an attendee', done => {
     utils.insertTable('attendees', {id: "test1", name: "john"})
