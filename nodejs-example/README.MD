@@ -7,16 +7,60 @@ export AWS_PROFILE=xebia-dev
 
 # DEMO Lambda Node.js
 
-## Lambda simple
+0. Création de la table DynamoDB **"attendees"** dans la console AWS
+Item 1 :
+```
+{
+  "firstName": "Gérôme",
+  "id": "1",
+  "job": "developer",
+  "lastName": "Egron"
+}
+```
+
+Item 2 :
+```
+{
+  "firstName": "Jérémy",
+  "id": "2",
+  "job": "developer",
+  "lastName": "Pinsolle"
+}
+```
 
 1. Présentation **package.json**
 
-2. Création **repositories/AttendeesRepository.js"
+2. Création **repositories/AttendeesRepository.js**
 ```javascript
+const dynamo = require('./dynamodbsdk').DocumentClient;
+
 module.exports.list = function () {
   return dynamo.scan({TableName : 'attendees'})
     .promise()
     .then(result => result.Items);
+};
+
+module.exports.get = function (id) {
+  return dynamo.get({
+    TableName : 'attendees',
+    Key: { id: id }}
+    )
+    .promise()
+    .then(result => result.Item);
+};
+```
+
+3. Création **handlers/AttendeesHandler.js**
+```javascript
+const repo = require('../repositories/AttendeesRepository');
+
+module.exports.list = function (event, context, callback) {
+  repo.list().then(result => {
+    callback(null, {
+      statusCode: 200,
+      body: JSON.stringify(result)
+    });
+  });
 };
 
 module.exports.get = function (event, context, callback) {
@@ -38,28 +82,7 @@ module.exports.get = function (event, context, callback) {
   });
 };
 ```
-
-3. Création **handlers/AttendeesHandler.js"
-```javascript
-module.exports.list = function (event, context, callback) {
- repo.list().then(result => {
-     callback(null, {
-       statusCode: 200,
-       body: JSON.stringify(result)
-     });
-   });
-};
-
-module.exports.get = function (event, context, callback) {
-  repo.get(event.pathParameters.id).then(result => {
-    callback(null, {
-      statusCode: 200,
-      body: JSON.stringify(result)
-    });
-  });
-};
-```
-4. Création **serverless.yml"
+4. Création **serverless.yml**
 ```yaml
 service: node-bdxio
 
