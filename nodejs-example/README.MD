@@ -11,7 +11,7 @@ export AWS_PROFILE=xebia-dev
 Item 1 :
 ```
 {
-  "firstName": "Gérôme",
+  "firstName": "Gerome",
   "id": "1",
   "job": "developer",
   "lastName": "Egron"
@@ -21,7 +21,7 @@ Item 1 :
 Item 2 :
 ```
 {
-  "firstName": "Jérémy",
+  "firstName": "Jeremy",
   "id": "2",
   "job": "developer",
   "lastName": "Pinsolle"
@@ -94,11 +94,6 @@ provider:
 
   iamRoleStatements:
     - Effect: Allow
-      Action:
-        - xray:PutTraceSegments
-        - xray:PutTelemetryRecords
-      Resource: "*"
-    - Effect: Allow
       Action: "dynamodb:*"
       Resource: "arn:aws:dynamodb:eu-west-1:*:table/attendees"
 
@@ -126,8 +121,6 @@ functions:
 5. Ajouter les plugins
 ```yaml
 plugins:
-  # APM
-  - serverless-plugin-tracing
   # Run local API gateway
   - serverless-offline
 ```
